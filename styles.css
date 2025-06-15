@@ -43,10 +43,9 @@ body {
 
 .hero {
 	width: 100%;
-	max-width: 1200px;
 	padding: 0 16px;
 	box-sizing: border-box;
-	margin: 0 auto;
+	margin: 0 auto 40px auto;
 	text-align: center;
 }
 
@@ -58,10 +57,14 @@ body {
 	word-break: break-word;
 }
 
-main {
-	max-width: 400px;
+.hero img {
 	width: 100%;
-	min-height: 70vh;
+}
+
+main {
+	max-width: 610px;
+	width: 100%;
+	min-height: 65vh;
 	padding: 0 20px;
 	display: flex;
 	flex-direction: column;
@@ -72,18 +75,21 @@ main {
 form {
 	display: flex;
 	flex-direction: column;
-	gap: 15px;
+	gap: 35px;
 	font-weight: bold;
+	height: 24%;
 }
 
 input {
 	box-sizing: border-box;
 	width: 100%;
+	height: 100px;
 }
 
 input::placeholder {
 	color: var(--main-black);
 	font-weight: bold;
+	font-size: 30px;
 }
 
 input[type="password"]::placeholder {
@@ -96,7 +102,7 @@ input[type="email"] {
 	padding: 12px;
 	border: none;
 	border-radius: 0;
-	font-size: 16px;
+	font-size: 30px;
 }
 
 input[type="email"] {
@@ -106,11 +112,13 @@ input[type="email"] {
 button {
 	padding: 12px;
 	width: 30%;
+	height: 100px;
 	background-color: var(--main-white);
 	color: var(--main-black);
 	border: none;
 	border-radius: 0;
 	font-weight: bold;
+	font-size: 30px;
 	cursor: pointer;
 	transition: background-color 0.2s ease;
 }
@@ -129,13 +137,11 @@ button:hover {
 }
 
 #email-submit {
-	min-width: 100px;
+	min-width: 200px;
 }
 
 .label {
 	display: none;
-	font-size: 14px;
-	letter-spacing: 0.5px;
 }
 
 .input-wrapper {
@@ -152,7 +158,7 @@ button:hover {
 	top: 12px;
 	left: 12px;
 	color: var(--main-black);
-	font-size: 14px;
+	font-size: 30px;
 	line-height: 1.2;
 	pointer-events: none;
 	white-space: normal;
@@ -164,4 +170,19 @@ button:hover {
 .input-wrapper input:not(:placeholder-shown)+.fake-placeholder {
 	opacity: 0;
 	transition: opacity 0.2s ease;
+}
+
+@media (max-width: 600px) {
+
+	button,
+	input[type="password"],
+	input[type="email"] {
+		height: 80px;
+		font-size: 1em;
+	}
+
+	.fake-placeholder,
+	input::placeholder {
+		font-size: 1em;
+	}
 }

@@ -51,10 +51,11 @@ body {
 	padding: 0;
 	background-color: var(--main-black);
 	color: var(--main-white);
-	font-family: Arial, sans-serif;
+	font-family: 'Montserrat', sans-serif;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	font-weight: 700;
 }
 
 .hero {
@@ -153,7 +154,7 @@ button:hover {
 }
 
 #email-submit {
-	min-width: 200px;
+	min-width: 205px;
 }
 
 .label {
@@ -174,7 +175,7 @@ button:hover {
 	top: 12px;
 	left: 12px;
 	color: var(--main-black);
-	font-size: 30px;
+	font-size: 28px;
 	line-height: 1.2;
 	pointer-events: none;
 	white-space: normal;

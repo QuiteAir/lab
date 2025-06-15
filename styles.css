@@ -9,7 +9,15 @@
 		color: #999;
 	}
 
+	24.9% {
+		color: #999;
+	}
+
 	25% {
+		color: #ff4c4c;
+	}
+
+	49.9% {
 		color: #ff4c4c;
 	}
 
@@ -17,7 +25,15 @@
 		color: #3498db;
 	}
 
+	74.9% {
+		color: #3498db;
+	}
+
 	75% {
+		color: #8e44ad;
+	}
+
+	99.9% {
 		color: #8e44ad;
 	}
 
@@ -129,7 +145,7 @@ button.login {
 
 button.subscribe {
 	margin-left: auto;
-	animation: colorCycle 20s linear infinite;
+	animation: colorCycle 7s linear infinite;
 }
 
 button:hover {
@@ -163,7 +179,7 @@ button:hover {
 	pointer-events: none;
 	white-space: normal;
 	max-width: calc(100% - 24px);
-	animation: colorCycle 20s linear infinite;
+	animation: colorCycle 7s linear infinite;
 }
 
 .input-wrapper input:focus+.fake-placeholder,

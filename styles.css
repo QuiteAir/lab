@@ -1,0 +1,146 @@
+:root {
+	--main-black: #121212;
+	--main-white: #f0f0f0;
+	--hover-white: #ddd;
+}
+
+@keyframes colorCycle {
+	0% {
+		color: #999;
+	}
+
+	25% {
+		color: #ff4c4c;
+	}
+
+	50% {
+		color: #3498db;
+	}
+
+	75% {
+		color: #8e44ad;
+	}
+
+	100% {
+		color: #999;
+	}
+}
+
+body {
+	margin: 0;
+	padding: 0;
+	background-color: var(--main-black);
+	color: var(--main-white);
+	font-family: Arial, sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+h1 {
+	font-size: 6em;
+}
+
+main {
+	max-width: 400px;
+	width: 100%;
+	min-height: 80vh;
+	padding: 40px 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	gap: 40px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+	font-weight: bold;
+}
+
+input {
+	box-sizing: border-box;
+	width: 100%;
+}
+
+input::placeholder {
+	color: var(--main-black);
+	font-weight: bold;
+}
+
+input[type="password"]::placeholder {
+	color: var(--main-black);
+	text-align: center;
+}
+
+input[type="password"],
+input[type="email"] {
+	padding: 12px;
+	border: none;
+	border-radius: 4px;
+	font-size: 16px;
+}
+
+input[type="email"] {
+	padding-bottom: 24px;
+}
+
+button {
+	padding: 12px;
+	width: 30%;
+	background-color: var(--main-white);
+	color: var(--main-black);
+	border: none;
+	border-radius: 4px;
+	font-weight: bold;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+button.login {
+	margin: 0 auto;
+}
+
+button.subscribe {
+	margin-left: auto;
+	animation: colorCycle 20s linear infinite;
+}
+
+button:hover {
+	background-color: var(--hover-white);
+}
+
+.label {
+	display: none;
+	font-size: 14px;
+	letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+.input-wrapper input {
+	width: 100%;
+}
+
+.fake-placeholder {
+	position: absolute;
+	top: 12px;
+	left: 12px;
+	color: var(--main-black);
+	font-size: 14px;
+	line-height: 1.2;
+	pointer-events: none;
+	white-space: normal;
+	max-width: calc(100% - 24px);
+	animation: colorCycle 20s linear infinite;
+}
+
+.input-wrapper input:focus+.fake-placeholder,
+.input-wrapper input:not(:placeholder-shown)+.fake-placeholder {
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}

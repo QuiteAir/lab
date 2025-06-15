@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Лаборатория</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Лаборатория</h1>
+
+    <main>
+      <!-- Форма входа по паролю -->
+      <form action="/login" method="post" id="login-form">
+        <label class="label">Введите пароль для входа</label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="ПАРОЛЬ ДЛЯ САЙТА"
+          required
+        />
+        <button class="login" type="submit">ВОЙТИ</button>
+      </form>
+      <canvas
+        id="jumpGame"
+        width="400"
+        height="500"
+        style="display: none"
+      ></canvas>
+      <button
+        id="replayBtn"
+        style="
+          display: none;
+          margin-top: 10px;
+          margin-right: auto;
+          margin-left: auto;
+        "
+      >
+        СЫГРАТЬ СНОВА
+      </button>
+
+      <!-- Форма подписки на дропы -->
+      <form action="/subscribe" class="subscribe-form" method="post">
+        <div class="input-wrapper">
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            placeholder=" "
+          />
+          <span class="fake-placeholder"
+            >ВВЕДИ ИМЭЙЛ ДЛЯ ОПОВЕЩЕНИЙ О ВЫХОДЕ ДРОПОВ</span
+          >
+        </div>
+        <button class="subscribe" type="submit">ОТПРАВИТЬ</button>
+      </form>
+    </main>
+  </body>
+  <script>
+    const canvas = document.getElementById("jumpGame");
+    const ctx = canvas.getContext("2d");
+    const form = document.getElementById("login-form");
+    const passwordInput = document.getElementById("password");
+    const replayBtn = document.getElementById("replayBtn");
+
+    let gameOver = false;
+    let doodler = {
+      x: 180,
+      y: 0,
+      width: 40,
+      height: 40,
+      vy: 0,
+      jumping: true,
+    };
+    const gravity = 0.1;
+    const jumpStrength = -6;
+    const platforms = [];
+
+    let targetX = doodler.x;
+
+    function createPlatforms() {
+      for (let i = 0; i < 6; i++) {
+        let x = Math.random() * 360;
+        let y = 500 - i * 100;
+        platforms.push({ x, y, width: 60, height: 10 });
+      }
+    }
+
+    function drawDoodler() {
+      ctx.fillStyle = "#00ccff";
+      ctx.fillRect(doodler.x, doodler.y, doodler.width, doodler.height);
+    }
+
+    function drawPlatforms() {
+      ctx.fillStyle = "#fff";
+      for (let p of platforms) {
+        ctx.fillRect(p.x, p.y, p.width, p.height);
+      }
+    }
+
+    function update() {
+      // гравитация
+      doodler.vy += gravity;
+      doodler.y += doodler.vy;
+
+      // мышиное движение (плавное приближение к целевой точке)
+      doodler.x += (targetX - doodler.x) * 0.2;
+
+      // if (doodler.y > canvas.height) {
+      //   doodler.y = 400;
+      //   doodler.vy = jumpStrength;
+      // }
+
+      if (doodler.y > canvas.height) {
+        endGame();
+        return;
+      }
+
+      for (let p of platforms) {
+        if (
+          doodler.vy > 0 &&
+          doodler.x + doodler.width > p.x &&
+          doodler.x < p.x + p.width &&
+          doodler.y + doodler.height > p.y &&
+          doodler.y + doodler.height < p.y + p.height + doodler.vy
+        ) {
+          doodler.vy = jumpStrength;
+        }
+
+        p.y += gravity * 10;
+        if (p.y > canvas.height) {
+          p.y = 0;
+          p.x = Math.random() * 340;
+        }
+      }
+    }
+
+    // Запуск игры при правильном пароле
+    function gameLoop() {
+      if (gameOver) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawPlatforms();
+      drawDoodler();
+      update();
+      requestAnimationFrame(gameLoop);
+    }
+
+    function endGame() {
+      gameOver = true;
+
+      ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#fff";
+      ctx.font = "24px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText("ИГРА ОКОНЧЕНА", canvas.width / 2, canvas.height / 2);
+
+      replayBtn.style.display = "block";
+    }
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault(); // блокируем реальный submit
+
+      const password = passwordInput.value.trim();
+      if (password === "l") {
+        canvas.style.display = "block";
+        if (platforms.length === 0) {
+          form.style.display = "none";
+          createPlatforms();
+          gameLoop();
+        }
+      } else {
+        alert("Неверный пароль!");
+      }
+    });
+
+    // Управление мышью
+    canvas.addEventListener("mousemove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      targetX = e.clientX - rect.left - doodler.width / 2;
+    });
+
+    // Управление пальцем (тач)
+    canvas.addEventListener(
+      "touchmove",
+      (e) => {
+        e.preventDefault();
+        const rect = canvas.getBoundingClientRect();
+        const touch = e.touches[0];
+        targetX = touch.clientX - rect.left - doodler.width / 2;
+      },
+      { passive: false },
+    );
+
+    replayBtn.addEventListener("click", () => {
+      // сброс состояния
+      platforms.length = 0;
+      doodler = {
+        x: 180,
+        y: 400,
+        width: 40,
+        height: 40,
+        vy: 0,
+        jumping: true,
+      };
+      gameOver = false;
+      replayBtn.style.display = "none";
+
+      createPlatforms();
+      doodler.y = 0;
+      gameLoop();
+    });
+  </script>
+</html>

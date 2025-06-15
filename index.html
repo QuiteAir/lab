@@ -41,11 +41,23 @@
       </button>
 
       <!-- Форма подписки на дропы -->
-      <form action="/subscribe" class="subscribe-form" method="post">
+      <iframe
+        name="hidden_iframe"
+        id="hidden_iframe"
+        style="display: none"
+      ></iframe>
+
+      <form
+        action="https://docs.google.com/forms/d/e/1FAIpQLSflKu7i6te8CXggd3ZhRpgUWNNKhPnM5aeqk59sSo7RBgAB_A/formResponse"
+        target="hidden_iframe"
+        onsubmit="showSuccessMessage()"
+        method="post"
+        class="subscribe-form"
+      >
         <div class="input-wrapper">
           <input
             type="email"
-            name="email"
+            name="entry.1088547366"
             id="email"
             required
             placeholder=" "
@@ -214,5 +226,12 @@
       doodler.y = 0;
       gameLoop();
     });
+
+    function showSuccessMessage() {
+      setTimeout(() => {
+        alert("Спасибо! Вы подписаны на обновления.");
+        document.getElementById("email").value = "";
+      }, 100); // небольшая задержка, чтобы дать форме отправиться
+    }
   </script>
 </html>

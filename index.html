@@ -92,6 +92,9 @@
     const passwordInput = document.getElementById("password");
     const replayBtn = document.getElementById("replayBtn");
 
+    const doodlerImg = new Image();
+    doodlerImg.src = "./assets/doodle.png";
+
     let gameOver = false;
     let doodler = {
       x: 180,
@@ -116,12 +119,19 @@
     }
 
     function drawDoodler() {
-      ctx.fillStyle = "#00ccff";
-      ctx.fillRect(doodler.x, doodler.y, doodler.width, doodler.height);
+      // ctx.fillStyle = "#00ccff";
+      // ctx.fillRect(doodler.x, doodler.y, doodler.width, doodler.height);
+      ctx.drawImage(
+        doodlerImg,
+        doodler.x,
+        doodler.y,
+        doodler.width,
+        doodler.height,
+      );
     }
 
     function drawPlatforms() {
-      ctx.fillStyle = "#f772ff";
+      ctx.fillStyle = "#fff";
       for (let p of platforms) {
         ctx.fillRect(p.x, p.y, p.width, p.height);
       }

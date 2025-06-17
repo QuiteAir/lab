@@ -191,6 +191,62 @@ button:hover {
 	transition: opacity 0.2s ease;
 }
 
+#jumpGame {
+	width: 100%;
+	height: 100%;
+	/* сохраняем пропорции 400x500 */
+	display: none;
+	margin: 0 auto;
+}
+
+.popup {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.75);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100;
+}
+
+.popup.hidden {
+	display: none;
+}
+
+.popup-inner {
+	background: var(--main-white);
+	color: var(--main-black);
+	padding: 30px 40px;
+	border-radius: 12px;
+	text-align: center;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.popup-inner p {
+	font-size: 24px;
+	margin-bottom: 20px;
+	font-weight: bold;
+}
+
+.popup-inner button {
+	padding: 12px 20px;
+	width: 100%;
+	background: var(--main-black);
+	color: var(--main-white);
+	border: none;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+}
+
+.popup-inner button:first-of-type {
+	margin-bottom: 10px;
+}
+
 @media (max-width: 600px) {
 
 	button,

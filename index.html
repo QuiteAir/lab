@@ -82,6 +82,7 @@
         </button>
       </form>
     </main>
+    <img src="./assets/doodle_new.svg" id="scroll-doodle" alt="Doodle icon" />
   </body>
   <script>
     const canvas = document.getElementById("jumpGame");
@@ -281,5 +282,55 @@
 
     window.addEventListener("load", adjustHeroPadding);
     window.addEventListener("resize", adjustHeroPadding);
+
+    const scrollDoodle = document.getElementById("scroll-doodle");
+    let doodleShown = false;
+    let scrollAttemptCount = 0;
+    let scrollAttemptTimer = null;
+    let preventAnimation = false;
+
+    const ATTEMPT_LIMIT = 10;
+    const ATTEMPT_INTERVAL_MS = 1000; // сброс если более 1 секунды между скроллами
+
+    window.addEventListener("wheel", (e) => {
+      const atBottom =
+        Math.ceil(window.innerHeight + window.scrollY) >=
+        document.body.scrollHeight;
+
+      if (atBottom && e.deltaY > 0) {
+        scrollAttemptCount++;
+
+        // Сбросить таймер, если идёт быстрая серия скроллов
+        if (scrollAttemptTimer) {
+          clearTimeout(scrollAttemptTimer);
+        }
+
+        // Запускаем таймер на сброс счётчика
+        scrollAttemptTimer = setTimeout(() => {
+          scrollAttemptCount = 0;
+        }, ATTEMPT_INTERVAL_MS);
+
+        if (scrollAttemptCount >= ATTEMPT_LIMIT && !preventAnimation) {
+          preventAnimation = true;
+          setTimeout(() => (preventAnimation = false), 3000);
+          scrollAttemptCount = 0;
+          doodleShown = true;
+          triggerFakeScrollAnimation();
+        }
+      }
+    });
+
+    function triggerFakeScrollAnimation() {
+      document.body.style.transition = "transform 0.4s";
+      document.body.style.transform = "translateY(-40px)";
+
+      scrollDoodle.style.bottom = "20px";
+      scrollDoodle.classList.add("spin");
+
+      setTimeout(() => {
+        document.body.style.transform = "translateY(0)";
+        scrollDoodle.style.bottom = "-20px";
+      }, 800);
+    }
   </script>
 </html>

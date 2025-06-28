@@ -4,11 +4,17 @@ section#shop {
 	color: white;
 }
 
+
+
 .shop-content-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 40px 20px 0;
+}
+
+.shop-content-container button {
+	width: auto;
 }
 
 .shop-subtitle {
@@ -56,4 +62,24 @@ section#shop {
 	width: 100%;
 	display: block;
 	height: auto;
+}
+
+@media (max-width: 750px) {
+	.shop-subtitle {
+		margin-top: 20px;
+		font-size: 40px;
+	}
+
+	.shop-description {
+		font-size: 24px;
+	}
+
+	.shop-video-link a {
+		font-size: 24px;
+	}
+
+	.shop-buy-btn {
+		font-size: 1rem;
+		padding: 16px 24px;
+	}
 }

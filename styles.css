@@ -138,9 +138,16 @@ button {
 	border: none;
 	border-radius: 0;
 	font-size: 30px;
-	font-weight: 500;
 	cursor: pointer;
 	transition: background-color 0.2s ease;
+}
+
+button,
+input,
+textarea,
+span {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 400;
 }
 
 button.login {
@@ -157,7 +164,7 @@ button:hover {
 }
 
 #email-submit {
-	min-width: 205px;
+	min-width: 225px;
 }
 
 .label {

@@ -5,14 +5,12 @@ const passwordInput = document.getElementById("password");
 loginForm.addEventListener("submit", e => {
 	e.preventDefault();
 	const password = passwordInput.value.trim();
-	if (password === "CRAYON") {
-		document.getElementById("jumpGame").style.display = "block";
+	if (password === "1") {
+		document.getElementById("shop").style.display = "flex";
+		document.querySelector("main").style.display = "none";
+		subscribeForm.style.display = "none";
 		subscribeForm.style.display = "none";
 		loginForm.style.display = "none";
-		if (platforms.length === 0) {
-			createPlatforms();
-			gameLoop();
-		}
 	} else {
 		alert("Неверный пароль!");
 	}

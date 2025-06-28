@@ -329,8 +329,69 @@
 
       setTimeout(() => {
         document.body.style.transform = "translateY(0)";
-        scrollDoodle.style.bottom = "-20px";
+        scrollDoodle.classList.remove("spin");
       }, 800);
     }
+
+    let touchStartY = 0;
+
+    window.addEventListener("touchstart", (e) => {
+      if (e.touches.length > 0) {
+        touchStartY = e.touches[0].clientY;
+      }
+    });
+
+    window.addEventListener(
+      "touchmove",
+      (e) => {
+        if (e.touches.length === 0) return;
+
+        const currentY = e.touches[0].clientY;
+        const deltaY = touchStartY - currentY; // если < 0 — тянут вниз
+
+        const atBottom =
+          Math.ceil(window.innerHeight + window.scrollY) >=
+          document.body.scrollHeight;
+
+        if (atBottom && deltaY > 0) {
+          scrollAttemptCount++;
+
+          if (scrollAttemptTimer) {
+            clearTimeout(scrollAttemptTimer);
+          }
+
+          scrollAttemptTimer = setTimeout(() => {
+            scrollAttemptCount = 0;
+          }, ATTEMPT_INTERVAL_MS);
+
+          if (scrollAttemptCount >= ATTEMPT_LIMIT * 4 && !preventAnimation) {
+            preventAnimation = true;
+            setTimeout(() => (preventAnimation = false), 3000);
+            scrollAttemptCount = 0;
+            doodleShown = true;
+            triggerFakeScrollAnimation();
+          }
+        }
+      },
+      { passive: true },
+    );
+    scrollDoodle.addEventListener("click", () => {
+      // Скрываем формы
+      subscribeForm.style.display = "none";
+      scrollDoodle.style.display = "none";
+      loginForm.style.display = "none";
+
+      // Показываем игру
+      canvas.style.display = "block";
+
+      // Если платформы не созданы — создать
+      if (platforms.length === 0) {
+        createPlatforms();
+        doodler.y = 0; // сброс позиции
+      }
+
+      gameOver = false;
+      gameLoop();
+    });
   </script>
 </html>

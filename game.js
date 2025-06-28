@@ -11,6 +11,7 @@ let targetX = doodler.x;
 let gameOver = false;
 const doodlerImg = new Image();
 doodlerImg.src = "./assets/doodle_new.svg";
+let score = 0;
 
 function createPlatforms() {
 	for (let i = 0; i < 6; i++) {
@@ -27,6 +28,12 @@ function drawDoodler() {
 function drawPlatforms() {
 	ctx.fillStyle = "#fff";
 	platforms.forEach(p => ctx.fillRect(p.x, p.y, p.width, p.height));
+}
+
+function drawScore() {
+	ctx.fillStyle = "#fff";
+	ctx.font = "20px Montserrat";
+	ctx.fillText(`Счёт: ${score}`, 10, 30);
 }
 
 function update() {
@@ -58,6 +65,7 @@ function update() {
 			doodler.y + doodler.height < p.y + p.height + doodler.vy
 		) {
 			doodler.vy = jumpStrength;
+			score++;
 		}
 		p.y += gravity * 10;
 		if (p.y > canvas.height) {
@@ -79,6 +87,7 @@ function gameLoop(timestamp) {
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	drawPlatforms();
 	drawDoodler();
+	drawScore();
 	update();
 	requestAnimationFrame(gameLoop);
 }
@@ -89,6 +98,7 @@ function endGame() {
 }
 
 document.getElementById("replayBtn").addEventListener("click", () => {
+	score = 0;
 	requestAnimationFrame(gameLoop);
 	platforms.length = 0;
 	doodler = { x: 180, y: 400, width: DOODLER_WIDTH, height: DOODLER_HEIGHT, vy: 0, jumping: true };

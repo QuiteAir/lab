@@ -4,8 +4,8 @@ const ctx = canvas.getContext("2d");
 const DOODLER_WIDTH = 50;
 const DOODLER_HEIGHT = 73;
 let doodler = { x: 180, y: 0, width: DOODLER_WIDTH, height: DOODLER_HEIGHT, vy: 0, jumping: true };
-const gravity = 0.1;
-const jumpStrength = -6;
+const gravity = 0.3;
+const jumpStrength = -9;
 const platforms = [];
 let targetX = doodler.x;
 let gameOver = false;
@@ -57,8 +57,15 @@ function update() {
 	});
 }
 
-function gameLoop() {
+let lastFrameTime = 0;
+function gameLoop(timestamp) {
 	if (gameOver) return;
+	if (timestamp - lastFrameTime < 16) { // ~60fps
+		requestAnimationFrame(gameLoop);
+		return;
+	}
+	lastFrameTime = timestamp;
+
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 	drawPlatforms();
 	drawDoodler();
@@ -72,6 +79,7 @@ function endGame() {
 }
 
 document.getElementById("replayBtn").addEventListener("click", () => {
+	requestAnimationFrame(gameLoop);
 	platforms.length = 0;
 	doodler = { x: 180, y: 400, width: DOODLER_WIDTH, height: DOODLER_HEIGHT, vy: 0, jumping: true };
 	gameOver = false;

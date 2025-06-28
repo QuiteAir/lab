@@ -41,16 +41,6 @@
 	}
 }
 
-@keyframes doodleSpin {
-	from {
-		transform: rotate(0deg);
-	}
-
-	to {
-		transform: rotate(360deg);
-	}
-}
-
 * {
 	box-sizing: border-box;
 }
@@ -70,14 +60,12 @@ body {
 .hero {
 	width: 100%;
 	padding: 0 16px;
-	box-sizing: border-box;
 	margin: 0 auto 40px auto;
 	text-align: center;
 }
 
 .hero h1 {
 	font-size: clamp(2.5rem, 10vw, 6rem);
-	/* от 2.5rem до 6rem */
 	line-height: 1.1;
 	margin: 40px 0;
 	word-break: break-word;
@@ -105,6 +93,15 @@ form {
 	gap: 35px;
 }
 
+.input-wrapper {
+	position: relative;
+	width: 100%;
+}
+
+.input-wrapper input {
+	width: 100%;
+}
+
 input {
 	box-sizing: border-box;
 	width: 100%;
@@ -117,7 +114,6 @@ input::placeholder {
 }
 
 input[type="password"]::placeholder {
-	color: var(--main-black);
 	text-align: center;
 }
 
@@ -167,15 +163,6 @@ button:hover {
 	display: none;
 }
 
-.input-wrapper {
-	position: relative;
-	width: 100%;
-}
-
-.input-wrapper input {
-	width: 100%;
-}
-
 .fake-placeholder {
 	position: absolute;
 	top: 12px;
@@ -187,84 +174,12 @@ button:hover {
 	white-space: normal;
 	max-width: calc(100% - 24px);
 	animation: colorCycle 12s steps(1, end) infinite;
-	;
 }
 
 .input-wrapper input:focus+.fake-placeholder,
 .input-wrapper input:not(:placeholder-shown)+.fake-placeholder {
 	opacity: 0;
 	transition: opacity 0.2s ease;
-}
-
-#jumpGame {
-	width: 100%;
-	height: 100%;
-	/* сохраняем пропорции 400x500 */
-	display: none;
-	margin: 0 auto;
-}
-
-.popup {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.75);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 100;
-}
-
-.popup.hidden {
-	display: none;
-}
-
-.popup-inner {
-	background: var(--main-white);
-	color: var(--main-black);
-	padding: 30px 40px;
-	border-radius: 12px;
-	text-align: center;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-.popup-inner p {
-	font-size: 24px;
-	margin-bottom: 20px;
-}
-
-.popup-inner button {
-	padding: 12px 20px;
-	width: 100%;
-	background: var(--main-black);
-	color: var(--main-white);
-	border: none;
-	border-radius: 8px;
-	font-size: 16px;
-	cursor: pointer;
-}
-
-.popup-inner button:first-of-type {
-	margin-bottom: 10px;
-}
-
-#scroll-doodle {
-	position: fixed;
-	bottom: -100px;
-	left: 80px;
-	width: 60px;
-	height: auto;
-	transition: bottom 0.4s ease;
-	z-index: 200;
-	transition: bottom 0.6s ease;
-	rotate: -50deg;
-	cursor: pointer;
-}
-
-#scroll-doodle.spin {
-	animation: doodleSpin 1s ease-out;
 }
 
 @media (max-width: 600px) {

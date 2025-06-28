@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Лаборатория</title>
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="game.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="icon" type="image/x-icon" href="./assets/favicon.png" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.png" />
   </head>
   <body>
     <div class="hero" id="hero">
-      <!-- <h1>Лаборатория</h1> -->
       <img
         src="./assets/logo.png"
         id="hero-logo"
@@ -24,7 +24,6 @@
     </div>
 
     <main>
-      <!-- Форма входа по паролю -->
       <form action="/login" method="post" id="login-form">
         <label class="label">Введите пароль для входа</label>
         <input
@@ -36,12 +35,14 @@
         />
         <button class="login" type="submit">ВОЙТИ</button>
       </form>
+
       <canvas
         id="jumpGame"
         width="400"
         height="500"
         style="display: none"
       ></canvas>
+
       <div id="popup" class="popup hidden">
         <div class="popup-inner">
           <p>ИГРА ОКОНЧЕНА</p>
@@ -50,7 +51,6 @@
         </div>
       </div>
 
-      <!-- Форма подписки на дропы -->
       <iframe
         name="hidden_iframe"
         id="hidden_iframe"
@@ -82,316 +82,11 @@
         </button>
       </form>
     </main>
+
     <img src="./assets/doodle_new.svg" id="scroll-doodle" alt="Doodle icon" />
+
+    <script src="game.js"></script>
+    <script src="scroll.js"></script>
+    <script src="forms.js"></script>
   </body>
-  <script>
-    const canvas = document.getElementById("jumpGame");
-    const ctx = canvas.getContext("2d");
-    const loginForm = document.getElementById("login-form");
-    const subscribeForm = document.getElementById("subscribe-form");
-    const passwordInput = document.getElementById("password");
-    const replayBtn = document.getElementById("replayBtn");
-    const popup = document.getElementById("popup");
-
-    const doodlerImg = new Image();
-    doodlerImg.src = "./assets/doodle_new.svg";
-
-    let gameOver = false;
-
-    const DOODLER_WIDTH = 50;
-    const DOODLER_HEIGHT = 73;
-    let doodler = {
-      x: 180,
-      y: 0,
-      width: DOODLER_WIDTH,
-      height: DOODLER_HEIGHT,
-      vy: 0,
-      jumping: true,
-    };
-    const gravity = 0.1;
-    const jumpStrength = -6;
-    const platforms = [];
-
-    let targetX = doodler.x;
-
-    function createPlatforms() {
-      for (let i = 0; i < 6; i++) {
-        let x = Math.random() * 360;
-        let y = 500 - i * 100;
-        platforms.push({ x, y, width: 60, height: 10 });
-      }
-    }
-
-    function drawDoodler() {
-      // ctx.fillStyle = "#00ccff";
-      // ctx.fillRect(doodler.x, doodler.y, doodler.width, doodler.height);
-      ctx.drawImage(
-        doodlerImg,
-        doodler.x,
-        doodler.y,
-        doodler.width,
-        doodler.height,
-      );
-    }
-
-    function drawPlatforms() {
-      ctx.fillStyle = "#fff";
-      for (let p of platforms) {
-        ctx.fillRect(p.x, p.y, p.width, p.height);
-      }
-    }
-
-    function update() {
-      // гравитация
-      doodler.vy += gravity;
-      doodler.y += doodler.vy;
-
-      // мышиное движение (плавное приближение к целевой точке)
-      doodler.x += (targetX - doodler.x) * 0.2;
-
-      if (doodler.y > canvas.height) {
-        endGame();
-        return;
-      }
-
-      for (let p of platforms) {
-        if (
-          doodler.vy > 0 &&
-          doodler.x + doodler.width > p.x &&
-          doodler.x < p.x + p.width &&
-          doodler.y + doodler.height > p.y &&
-          doodler.y + doodler.height < p.y + p.height + doodler.vy
-        ) {
-          doodler.vy = jumpStrength;
-        }
-
-        p.y += gravity * 10;
-        if (p.y > canvas.height) {
-          p.y = 0;
-          p.x = Math.random() * 340;
-        }
-      }
-    }
-
-    // Запуск игры при правильном пароле
-    function gameLoop() {
-      if (gameOver) return;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawPlatforms();
-      drawDoodler();
-      update();
-      requestAnimationFrame(gameLoop);
-    }
-
-    function endGame() {
-      gameOver = true;
-
-      // ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-      // ctx.fillRect(0, 0, canvas.width, canvas.height);
-      //
-      // ctx.fillStyle = "#fff";
-      // ctx.font = "24px Arial";
-      // ctx.textAlign = "center";
-      // ctx.fillText("ИГРА ОКОНЧЕНА", canvas.width / 2, canvas.height / 2);
-      //
-      // replayBtn.style.display = "block";
-
-      popup.classList.remove("hidden");
-    }
-
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault(); // блокируем реальный submit
-
-      const password = passwordInput.value.trim();
-      if (password === "CRAYON") {
-        canvas.style.display = "block";
-        if (platforms.length === 0) {
-          subscribeForm.style.display = "none";
-          loginForm.style.display = "none";
-          createPlatforms();
-          gameLoop();
-        }
-      } else {
-        alert("Неверный пароль!");
-      }
-    });
-
-    // Управление мышью
-    canvas.addEventListener("mousemove", (e) => {
-      const rect = canvas.getBoundingClientRect();
-      targetX = e.clientX - rect.left - doodler.width / 2;
-    });
-
-    // Управление пальцем (тач)
-    canvas.addEventListener(
-      "touchmove",
-      (e) => {
-        e.preventDefault();
-        const rect = canvas.getBoundingClientRect();
-        const touch = e.touches[0];
-        targetX = touch.clientX - rect.left - doodler.width / 2;
-      },
-      { passive: false },
-    );
-
-    replayBtn.addEventListener("click", () => {
-      // сброс состояния
-      platforms.length = 0;
-      doodler = {
-        x: 180,
-        y: 400,
-        width: DOODLER_WIDTH,
-        height: DOODLER_HEIGHT,
-        vy: 0,
-        jumping: true,
-      };
-      gameOver = false;
-      // replayBtn.style.display = "none";
-      popup.classList.add("hidden");
-
-      createPlatforms();
-      doodler.y = 0;
-      gameLoop();
-    });
-
-    function showSuccessMessage() {
-      setTimeout(() => {
-        alert("Спасибо! Вы подписаны на обновления.");
-        document.getElementById("email").value = "";
-      }, 100); // небольшая задержка, чтобы дать форме отправиться
-    }
-
-    const backBtn = document.getElementById("backBtn");
-    backBtn.addEventListener("click", () => {
-      window.location.reload();
-    });
-
-    function adjustHeroPadding() {
-      const hero = document.getElementById("hero");
-      const logo = document.getElementById("hero-logo");
-
-      if (logo.complete) {
-        hero.style.paddingTop = logo.clientHeight * 0.18 + "px";
-      } else {
-        logo.onload = () => {
-          hero.style.paddingTop = logo.clientHeight * 0.18 + "px";
-        };
-      }
-    }
-
-    window.addEventListener("load", adjustHeroPadding);
-    window.addEventListener("resize", adjustHeroPadding);
-
-    const scrollDoodle = document.getElementById("scroll-doodle");
-    let doodleShown = false;
-    let scrollAttemptCount = 0;
-    let scrollAttemptTimer = null;
-    let preventAnimation = false;
-
-    const ATTEMPT_LIMIT = 10;
-    const ATTEMPT_INTERVAL_MS = 1000; // сброс если более 1 секунды между скроллами
-
-    window.addEventListener("wheel", (e) => {
-      const atBottom =
-        Math.ceil(window.innerHeight + window.scrollY) >=
-        document.body.scrollHeight;
-
-      if (atBottom && e.deltaY > 0) {
-        scrollAttemptCount++;
-
-        // Сбросить таймер, если идёт быстрая серия скроллов
-        if (scrollAttemptTimer) {
-          clearTimeout(scrollAttemptTimer);
-        }
-
-        // Запускаем таймер на сброс счётчика
-        scrollAttemptTimer = setTimeout(() => {
-          scrollAttemptCount = 0;
-        }, ATTEMPT_INTERVAL_MS);
-
-        if (scrollAttemptCount >= ATTEMPT_LIMIT && !preventAnimation) {
-          preventAnimation = true;
-          setTimeout(() => (preventAnimation = false), 3000);
-          scrollAttemptCount = 0;
-          doodleShown = true;
-          triggerFakeScrollAnimation();
-        }
-      }
-    });
-
-    function triggerFakeScrollAnimation() {
-      document.body.style.transition = "transform 0.4s";
-      document.body.style.transform = "translateY(-40px)";
-
-      scrollDoodle.style.bottom = "20px";
-      scrollDoodle.classList.add("spin");
-
-      setTimeout(() => {
-        document.body.style.transform = "translateY(0)";
-        scrollDoodle.classList.remove("spin");
-      }, 800);
-    }
-
-    let touchStartY = 0;
-
-    window.addEventListener("touchstart", (e) => {
-      if (e.touches.length > 0) {
-        touchStartY = e.touches[0].clientY;
-      }
-    });
-
-    window.addEventListener(
-      "touchmove",
-      (e) => {
-        if (e.touches.length === 0) return;
-
-        const currentY = e.touches[0].clientY;
-        const deltaY = touchStartY - currentY; // если < 0 — тянут вниз
-
-        const atBottom =
-          Math.ceil(window.innerHeight + window.scrollY) >=
-          document.body.scrollHeight;
-
-        if (atBottom && deltaY > 0) {
-          scrollAttemptCount++;
-
-          if (scrollAttemptTimer) {
-            clearTimeout(scrollAttemptTimer);
-          }
-
-          scrollAttemptTimer = setTimeout(() => {
-            scrollAttemptCount = 0;
-          }, ATTEMPT_INTERVAL_MS);
-
-          if (scrollAttemptCount >= ATTEMPT_LIMIT * 4 && !preventAnimation) {
-            preventAnimation = true;
-            setTimeout(() => (preventAnimation = false), 3000);
-            scrollAttemptCount = 0;
-            doodleShown = true;
-            triggerFakeScrollAnimation();
-          }
-        }
-      },
-      { passive: true },
-    );
-    scrollDoodle.addEventListener("click", () => {
-      // Скрываем формы
-      subscribeForm.style.display = "none";
-      scrollDoodle.style.display = "none";
-      loginForm.style.display = "none";
-
-      // Показываем игру
-      canvas.style.display = "block";
-
-      // Если платформы не созданы — создать
-      if (platforms.length === 0) {
-        createPlatforms();
-        doodler.y = 0; // сброс позиции
-      }
-
-      gameOver = false;
-      gameLoop();
-    });
-  </script>
 </html>

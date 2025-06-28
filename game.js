@@ -34,6 +34,12 @@ function update() {
 	doodler.y += doodler.vy;
 	doodler.x += (targetX - doodler.x) * 0.2;
 
+	if (doodler.x < 0) {
+		doodler.x = 0;
+	} else if (doodler.x + doodler.width > canvas.width) {
+		doodler.x = canvas.width - doodler.width;
+	}
+
 	if (doodler.y > canvas.height) {
 		endGame();
 		return;

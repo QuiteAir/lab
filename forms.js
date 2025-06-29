@@ -3,7 +3,7 @@ const subscribeForm = document.getElementById("subscribe-form");
 const passwordInput = document.getElementById("password");
 
 document.getElementById("experiment1-desc").addEventListener("click", () => {
-	window.location.href = 'experiment1';
+	window.location.href = 'experiment1.html';
 });
 
 loginForm.addEventListener("submit", e => {

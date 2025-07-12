@@ -119,6 +119,7 @@ input[type="password"],
 input[type="email"] {
 	padding: 12px;
 	font-size: 30px;
+	color: var(--main-white);
 }
 
 input[type="email"] {

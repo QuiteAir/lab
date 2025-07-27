@@ -244,13 +244,13 @@ button:hover {
 	}
 
 	#theme-toggle {
-		width: 24px;
-		height: 24px;
+		width: 35px;
+		height: 35px;
 	}
 
 	#theme-toggle img {
-		width: 24px;
-		height: 24px;
+		width: 35px;
+		height: 35px;
 		object-fit: contain;
 	}
 }

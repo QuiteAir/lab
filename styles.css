@@ -1,7 +1,7 @@
 :root {
-	--main-black: #121212;
-	--main-white: #f0f0f0;
-	--hover-white: #ddd;
+	--color-bg: #121212;
+	--color-text: #f0f0f0;
+	--color-hover: #ddd;
 
 	--color-1: #74B7FF;
 	--color-2: #8AFF8D;
@@ -9,6 +9,24 @@
 	--color-4: #74B7FF;
 	--color-5: #653FFF;
 	--color-6: #FFB955;
+}
+
+body.light-theme {
+	--color-bg: #f0f0f0;
+	--color-text: #121212;
+	--color-hover: #f5f5f5;
+	background-color: var(--color-bg);
+	color: var(--color-text);
+}
+
+body.light-theme button:hover {
+	background-color: var(--color-text);
+	color: var(--color-bg);
+}
+
+body:not(.light-theme) button:hover {
+	background-color: var(--color-text);
+	color: var(--color-bg);
 }
 
 @keyframes colorCycle {
@@ -48,8 +66,8 @@
 body {
 	margin: 0;
 	padding: 0;
-	background-color: var(--main-black);
-	color: var(--main-white);
+	background-color: var(--color-bg);
+	color: var(--color-text);
 	font-family: 'Montserrat', sans-serif;
 	min-height: 100dvh;
 	max-width: 1920px;
@@ -98,7 +116,7 @@ form {
 }
 
 input {
-	border: 2px solid #fff;
+	border: 2px solid var(--color-text);
 	border-radius: 0;
 	background-color: transparent;
 	box-sizing: border-box;
@@ -107,7 +125,7 @@ input {
 }
 
 input::placeholder {
-	color: var(--main-white);
+	color: var(--color-text);
 	font-size: 30px;
 }
 
@@ -119,7 +137,7 @@ input[type="password"],
 input[type="email"] {
 	padding: 12px;
 	font-size: 30px;
-	color: var(--main-white);
+	color: var(--color-text);
 }
 
 input[type="email"] {
@@ -130,7 +148,7 @@ button {
 	padding: 12px;
 	height: 100px;
 	background-color: transparent;
-	color: var(--main-white);
+	color: var(--color-text);
 	border: none;
 	border-radius: 0;
 	font-size: 30px;
@@ -156,8 +174,8 @@ button.subscribe {
 }
 
 button:hover {
-	background-color: var(--hover-white);
-	color: var(--main-black);
+	background-color: var(--color-hover);
+	color: var(--color-text);
 }
 
 .label {
@@ -168,7 +186,7 @@ button:hover {
 	position: absolute;
 	top: 16px;
 	left: 12px;
-	color: var(--main-black);
+	color: var(--color-bg);
 	font-size: 28px;
 	line-height: 1.2;
 	pointer-events: none;
@@ -181,6 +199,21 @@ button:hover {
 .input-wrapper input:not(:placeholder-shown)+.fake-placeholder {
 	opacity: 0;
 	transition: opacity 0.2s ease;
+}
+
+#theme-toggle {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	z-index: 300;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 600px) {

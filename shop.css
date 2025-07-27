@@ -1,16 +1,15 @@
 section#shop {
 	display: flex;
 	flex-direction: column;
-	color: white;
+	color: var(--color-text);
 }
-
 
 
 .shop-content-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 40px 20px 0;
+	padding: 0 20px;
 }
 
 .shop-content-container button {
@@ -19,54 +18,54 @@ section#shop {
 
 .shop-subtitle {
 	align-self: start;
-	margin-top: 140px;
+	margin-top: 86px;
 	font-size: 85px;
-	font-weight: 700;
+	font-weight: normal;
 	margin-bottom: 15px;
+	padding-left: 79px;
 }
 
 .shop-description {
 	font-size: 46px;
-	font-weight: 900;
 	margin-top: 0;
 	margin-bottom: 55px;
 }
 
 .shop-video-link {
 	margin-top: 0;
-	margin-bottom: 75px;
+	margin-bottom: 0;
 	align-self: start;
 }
 
 .shop-video-link a {
 	font-size: 46px;
-	font-weight: 900;
-	color: white;
+	color: var(--color-text);
 	text-decoration: underline;
 }
 
 .shop-buy-btn {
 	padding: 20px 40px;
-	background: white;
-	color: #653FFF;
-	border: none;
-	font-weight: 700;
+	color: var(--color-text);
+	border: 2px solid var(--color-text);
 	font-size: 1.5rem;
 	cursor: pointer;
-	margin: 20px 0 67px;
+	margin: 52px 0;
 	margin-left: calc(-1 * var(--shop-padding, 20px));
 	margin-right: calc(-1 * var(--shop-padding, 20px));
 }
 
 .shop-image img {
+	max-width: 1343px;
 	width: 100%;
 	display: block;
 	height: auto;
+	margin: auto;
 }
 
 @media (max-width: 750px) {
 	.shop-subtitle {
 		margin-top: 20px;
+		padding-left: 0;
 		font-size: 40px;
 	}
 

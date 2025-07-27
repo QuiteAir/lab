@@ -26,12 +26,12 @@ function drawDoodler() {
 }
 
 function drawPlatforms() {
-	ctx.fillStyle = "#fff";
+	ctx.fillStyle = gameColor;
 	platforms.forEach(p => ctx.fillRect(p.x, p.y, p.width, p.height));
 }
 
 function drawScore() {
-	ctx.fillStyle = "#fff";
+	ctx.fillStyle = gameColor;
 	ctx.font = "20px Montserrat";
 	ctx.fillText(`Счёт: ${score}`, 10, 30);
 }
